@@ -1,5 +1,5 @@
 function [mu_ext, gamma_ext] = selection(Y, S, gamma_w, mu_z_in, gamma_z_in)
-
+% [1] [Bilinear Generalized Vector Approximate Message Passing](https://arxiv.org/abs/2009.06854).
     % posterior message
     mu_z_S_1 = ((gamma_w * Y + gamma_z_in * mu_z_in)/(gamma_w + gamma_z_in));
     mu_z_S_0 = mu_z_in;    

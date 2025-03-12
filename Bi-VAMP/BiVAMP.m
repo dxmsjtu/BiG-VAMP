@@ -88,6 +88,7 @@ function [u,v] = BiVAMP(Y, var_w , r, params)
         end        
         % Check the convergence
         diff = mean(abs(v-v_old), 'all') + mean(abs(u-u_old), 'all');               t=t+1;
+        MSE_It(t)=diff;
     end
     if strcmp(params.prior_v, 'Bernoulli-Gauss')
         v = v_est;

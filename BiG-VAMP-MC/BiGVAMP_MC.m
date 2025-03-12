@@ -97,26 +97,20 @@ function [u,v, mu_z_post] = BiGVAMP_MC(Y, S, var_w_y , r, params)
             case    {'Bernoulli-Gauss'}
                 [v_est, mu_v_gauss_update, gamma_v_gauss_update] = ...
                     prior_bernoulli_gauss(mu_v_ext,gamma_v_ext, 1, params.prior_v_paramsion.rho);
-        end
-   
-        [mu_z_ext, gamma_z_ext, mu_z_post] = ...
-            LMMSE_z(u, u_var, v, v_var, Z, gamma_z_gauss_update, params.beta);
-
+        end   
+        [mu_z_ext, gamma_z_ext, mu_z_post] =  LMMSE_z(u, u_var, v, v_var, Z, gamma_z_gauss_update, params.beta);
         % Damp the messages from the non linear bloc to the amp gauss block
         mu_z_ext = ((1-damp)*gamma_z_ext_old*mu_z_ext_old + damp*gamma_z_ext*mu_z_ext)/((1-damp)*gamma_z_ext_old + damp*gamma_z_ext);
         mu_z_ext_old = mu_z_ext;
         gamma_z_ext = (1-damp)*gamma_z_ext_old + damp*gamma_z_ext;
-        gamma_z_ext_old = gamma_z_ext;
-        
+        gamma_z_ext_old = gamma_z_ext;        
         % the matrix selection module for matrix completion
         [mu_z_gauss_update, gamma_z_gauss_update] = selection(Y, S, 1/var_w_y , mu_z_ext, gamma_z_ext);
-
         Z = mu_z_gauss_update;
-        var_w = 1/gamma_z_gauss_update;
-        
+        var_w = 1/gamma_z_gauss_update;        
         % Check the convergence
         diff = mean(abs(v-v_old), 'all') + mean(abs(u-u_old), 'all');
-        
+        MSE_it(t) =diff; 
         t=t+1;
     end
 

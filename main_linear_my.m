@@ -1,7 +1,8 @@
 close all; clear all;
 addpath('functions/');addpath('Bi-VAMP/');
 % size of the matrices U (nxr) and V^T (mxr)
-n = 1000;m = 50;r = 2;
+n=1000;m=500;r=10;   
+n=1000;m=1000;r=5;
 % SNR level in dB
 SNR_dB = 5;
 % parameter object contaning the experiment's parameters
